@@ -11,6 +11,7 @@
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <cmath>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Principal; }
@@ -42,6 +43,14 @@ private slots:
 
     void on_actionGuardar_triggered();
 
+    void on_actionLineas_triggered();
+
+    void on_actionLibre_triggered();
+
+    void on_actionRect_nculos_triggered();
+
+    void on_actionCircunferencias_triggered();
+
 private:
     Ui::Principal *ui;
     QImage *mImagen;        // Imagen sobre la que se va a dibujar
@@ -52,5 +61,10 @@ private:
     int mAncho;             // Define el ancho del pincel
     QColor mColor;          // Define el color del pincel
     int mNumLineas;         // Cuenta el número de líneas
+    bool mClic;             // Detecta 2 clics
+    int mModo;              // Detecta el modo de dibujo
+    enum dibu {
+     LINEA, LIBRE, RECTANGULO, CIRCULO
+    };
 };
 #endif // PRINCIPAL_H

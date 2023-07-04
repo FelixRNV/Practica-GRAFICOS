@@ -20,6 +20,7 @@ Principal::Principal(QWidget *parent)
     mColor = Qt::black;
     mAncho = DEFAULT_ANCHO;
     mNumLineas = 0;
+    mModo = LIBRE;
 }
 
 Principal::~Principal()
@@ -43,6 +44,10 @@ void Principal::mousePressEvent(QMouseEvent *event)
 {
     // Levanta la bandera (para que se pueda dibujar)
     mPuedeDibujar = true;
+    if (mModo!=LIBRE){
+        event->accept();
+        return;
+    }
     // Captura la posición (punto x,y) del mouse
     mInicial = event->pos();
     // Acepta el evento
@@ -58,6 +63,10 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
         // Salir del método
         return;
     }
+    if (mModo!=LIBRE){
+        event->accept();
+        return;
+    }
     // Capturar el punto a donde se mueve el mouse
     mFinal = event->pos();
     // Crear un pincel y establecer atributos
@@ -68,7 +77,7 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
     mPainter->setPen(pincel);
     mPainter->drawLine(mInicial, mFinal);
     // Mostrar el número de líneas en la barra de estado
-    ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas));
+    ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Libre");
     // Actualizar la interfaz (repinta con paintEvent)
     update();
     // actualizar el punto inicial
@@ -77,11 +86,78 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
 
 void Principal::mouseReleaseEvent(QMouseEvent *event)
 {
-    // Bajar la bandera (no se puede dibujar)
-    mPuedeDibujar = false;
-    // Aceptar el vento
-    event->accept();
-
+    switch (mModo){
+    case LIBRE:
+        // Bajar la bandera (no se puede dibujar)
+        mPuedeDibujar = false;
+        // Aceptar el vento
+        event->accept();
+        break;
+    case LINEA:
+        if (!mClic){
+            mInicial = event->pos();
+            mClic = true;
+        }else if (mClic){
+            mFinal = event->pos();
+            // Crear un pincel y establecer atributos
+            QPen pincel;
+            pincel.setColor(mColor);
+            pincel.setWidth(mAncho);
+            // Dibujar una linea
+            mPainter->setPen(pincel);
+            mPainter->drawLine(mInicial, mFinal);
+            ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Linea");
+            // Actualizar la interfaz (repinta con paintEvent)
+            update();
+            mClic = false;
+        }
+        break;
+    case RECTANGULO:
+        if (!mClic){
+            mInicial = event->pos();
+            mClic = true;
+        }else if (mClic){
+            mFinal = event->pos();
+            // Crear un pincel y establecer atributos
+            QPen pincel;
+            pincel.setColor(mColor);
+            pincel.setWidth(mAncho);
+            // Dibujar una linea
+            mPainter->setPen(pincel);
+            QRect rec(mInicial,mFinal);
+            mPainter->drawRect(rec);
+            ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Rectangulo");
+            // Actualizar la interfaz (repinta con paintEvent)
+            update();
+            mClic = false;
+        }
+        break;
+    case CIRCULO:
+        if (!mClic){
+            mInicial = event->pos();
+            mClic = true;
+        }else if (mClic){
+            mFinal = event->pos();
+            // Crear un pincel y establecer atributos
+            QPen pincel;
+            pincel.setColor(mColor);
+            pincel.setWidth(mAncho);
+            // Dibujar una linea
+            mPainter->setPen(pincel);
+            QRect rec(mInicial,mFinal);
+            int d,a,c;
+            a=mInicial.x()-mFinal.x();
+            c=mInicial.y()-mFinal.y();
+            d=pow(a,2)+pow(c,2);
+            d=sqrt(d);
+            mPainter->drawEllipse(mInicial,d,d);
+            ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Circunferencia");
+            // Actualizar la interfaz (repinta con paintEvent)
+            update();
+            mClic = false;
+        }
+        break;
+    }
 }
 
 
@@ -136,3 +212,27 @@ void Principal::on_actionGuardar_triggered()
         }
     }
 }
+
+void Principal::on_actionLineas_triggered()
+{
+    mModo = LINEA;
+}
+
+
+void Principal::on_actionLibre_triggered()
+{
+    mModo = LIBRE;
+}
+
+
+void Principal::on_actionRect_nculos_triggered()
+{
+    mModo = RECTANGULO;
+}
+
+
+void Principal::on_actionCircunferencias_triggered()
+{
+   mModo = CIRCULO;
+}
+
