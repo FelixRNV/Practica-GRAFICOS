@@ -25,6 +25,13 @@ HEADERS += \
 FORMS += \
     principal.ui
 
+TRANSLATIONS += \
+    MiPaint_es_EC.ts \
+    MiPaint_en_US.ts
+
+CONFIG += lrelease
+CONFIG += embed_translations
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

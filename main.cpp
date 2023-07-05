@@ -1,6 +1,9 @@
 #include "principal.h"
 
 #include <QApplication>
+#include <QLocale>
+#include <QTranslator>
+#include <QInputDialog>
 
 int main(int argc, char *argv[])
 {
