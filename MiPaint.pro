@@ -27,7 +27,9 @@ FORMS += \
 
 TRANSLATIONS += \
     MiPaint_es_EC.ts \
-    MiPaint_en_US.ts
+    MiPaint_en_US.ts \
+    MiPaint_jp_JP.ts \
+    MiPaint_el_GR.ts
 
 CONFIG += lrelease
 CONFIG += embed_translations
@@ -36,3 +38,6 @@ CONFIG += embed_translations
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    MiPaint_jp_JP.ts

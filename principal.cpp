@@ -77,7 +77,7 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
     mPainter->setPen(pincel);
     mPainter->drawLine(mInicial, mFinal);
     // Mostrar el número de líneas en la barra de estado
-    ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Libre");
+    ui->statusbar->showMessage(tr("Número de líneas: %1 || Modo: Libre").arg(++mNumLineas));
     // Actualizar la interfaz (repinta con paintEvent)
     update();
     // actualizar el punto inicial
@@ -106,7 +106,7 @@ void Principal::mouseReleaseEvent(QMouseEvent *event)
             // Dibujar una linea
             mPainter->setPen(pincel);
             mPainter->drawLine(mInicial, mFinal);
-            ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Linea");
+            ui->statusbar->showMessage(tr("Número de líneas: %1 || Modo: Linea").arg(++mNumLineas));
             // Actualizar la interfaz (repinta con paintEvent)
             update();
             mClic = false;
@@ -126,7 +126,7 @@ void Principal::mouseReleaseEvent(QMouseEvent *event)
             mPainter->setPen(pincel);
             QRect rec(mInicial,mFinal);
             mPainter->drawRect(rec);
-            ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Rectangulo");
+            ui->statusbar->showMessage(tr("Número de líneas: %1 || Modo: Rectangulo").arg(++mNumLineas));
             // Actualizar la interfaz (repinta con paintEvent)
             update();
             mClic = false;
@@ -151,7 +151,7 @@ void Principal::mouseReleaseEvent(QMouseEvent *event)
             d=pow(a,2)+pow(c,2);
             d=sqrt(d);
             mPainter->drawEllipse(mInicial,d,d);
-            ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas)+"|| Modo: Circunferencia");
+            ui->statusbar->showMessage(tr("Número de líneas: %1 || Modo: Circunferencia").arg(++mNumLineas));
             // Actualizar la interfaz (repinta con paintEvent)
             update();
             mClic = false;
